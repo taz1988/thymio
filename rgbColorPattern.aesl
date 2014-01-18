@@ -1,0 +1,42 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+
+
+<!--list of constants-->
+
+
+<!--show keywords state-->
+<keywords flag="true"/>
+
+
+<!--node thymio-II-->
+<node nodeId="1" name="thymio-II">#color variable for colors
+var color = 0b111
+var bug
+var bug2
+var bug3
+
+#set the timer call one second
+timer.period[0] = 100
+
+#subcall to change the color of the device
+sub increaseTopColor
+	if color > 29791 then
+		color = 0
+	end
+	call leds.top((color &amp;  0b111110000000000) >> 10, (color &amp;  0b000001111100000) >> 5, color &amp;   0b0000000000011111)
+	call leds.bottom.left((color &amp;  0b000001111100000) >> 5, (color &amp;  0b111110000000000) >> 10,  color &amp;   0b0000000000011111)
+	call leds.bottom.right(color &amp;   0b0000000000011111, (color &amp;  0b000001111100000) >> 5, (color &amp;  0b111110000000000) >> 10)
+	color = color + 15
+	
+	
+
+onevent timer0
+	callsub increaseTopColor
+  </node>
+
+
+</network>
